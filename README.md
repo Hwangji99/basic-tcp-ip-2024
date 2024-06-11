@@ -110,3 +110,30 @@ IoT 개발자 과정 TCP/IP 리포지토리
     - IPv4 주소체계
 
     <img src="https://github.com/Hwangji99/basic-tcp-ip-2024/blob/main/images/ni002.png?raw=true" width=600>
+
+
+    - 주소 정보의 표현
+        - IPv4 기반의 주소표현을 위헌 구조체
+        ```c
+        struct sockaddr_in
+        {
+            sa_family_t     sin_family; // 주소체계(Address Family)
+            uint16_t        sin_port;   // 16비트 TCP/UDP PORT번호
+            struct in_addr  sin_addr    // 32비트 IP주소
+            char            sin_zero[8] // 사용되지 않음
+        }
+
+        struct in_addr
+        {
+            in_addr_t       s_addr;     // 32비트 IPv4 인터넷 주소
+        };
+        ```
+
+        - 멤버 sin_family
+            - AF_INET, AF_INET6, AF_LOCAL
+    
+    - 네트워크 바이트 순서와 인터넷 주소 변환
+        - 빅 엔디안 : 상위 바이트의 값을 작은 번지수에 저장하는 방식
+        - 리틀 엔디안 : 상위 바이트의 값을 큰 번지수에 저장하는 방식
+
+        <img src="https://github.com/Hwangji99/basic-tcp-ip-2024/blob/main/images/ni003.png" width=600>
