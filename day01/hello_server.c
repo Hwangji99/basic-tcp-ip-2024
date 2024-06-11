@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
 
    memset(&serv_addr, 0, sizeof(serv_addr));
    serv_addr.sin_family=AF_INET;
-   serv_addr.sin_addr.s_addr=htonl(INADDR_ANY); // hton : host to network
+   serv_addr.sin_addr.s_addr=htonl(INADDR_ANY); // hton : host to network long 
+                                                // -> 32비트 unsigned 값을 프로세서 순서에서 네트워크 순서로 변환
    serv_addr.sin_port=htons(atoi(argv[1]));
 
    if(bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr))==-1)
