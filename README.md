@@ -17,7 +17,10 @@ IoT 개발자 과정 TCP/IP 리포지토리
     - 장치들 사이에 연결과 데이터의 전송/제어 기능을 통해서, 데이터 전송의 신뢰성을 보장
     - point to point 연결 방식으로 전이중/양방향에서 데이터 전송이 가능
 
+    - TCP
+
     <img src="https://github.com/Hwangji99/basic-tcp-ip-2024/blob/main/images/ni001.png" width=600>
+
 
 - 소말리아
     - 소 -> 소켓(socket) : 휴대폰 기기
@@ -104,4 +107,6 @@ IoT 개발자 과정 TCP/IP 리포지토리
             - 클래스 B의 첫 두 비트는 항상 10으로 시작
             - 클래스 C의 첫 세 비트는 항상 110으로 시작
         
-        <img src="https://github.com/Hwangji99/basic-tcp-ip-2024/blob/main/images/ni002.png?raw=true" width=600>
+    - IPv4 주소체계
+
+    <img src="https://github.com/Hwangji99/basic-tcp-ip-2024/blob/main/images/ni002.png?raw=true" width=600>
