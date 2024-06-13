@@ -189,6 +189,8 @@ IoT 개발자 과정 TCP/IP 리포지토리
         - TCP/IP 프로토콜 스택
 
 
+        <img src="https://github.com/Hwangji99/basic-tcp-ip-2024/blob/main/images/ni004.png?raw=true">
+
 
         - LINK 계층
 
@@ -245,6 +247,7 @@ IoT 개발자 과정 TCP/IP 리포지토리
     - TCP 기반 서버, 클라이언트의 함수호출 관계
 
 
+    <img src="https://github.com/Hwangji99/basic-tcp-ip-2024/blob/main/images/ni005.png?raw=true">
 
 
     - TCP 기반 서버/클라이언트 2
