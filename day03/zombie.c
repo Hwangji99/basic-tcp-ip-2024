@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
   }                               // 프로세스의 종료를 지연시킬 필요가 있다
 
   if(pid==0)
-    puts("End child process")
+    puts("End child process");
   else
     puts("End parent process");
   return 0;
