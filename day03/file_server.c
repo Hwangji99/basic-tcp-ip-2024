@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   }
 
   fp=fopen("file_server.c", "rb");
-  serv_sd=socket(PF_INET, SOCK_STERAM, 0);
+  serv_sd=socket(PF_INET, SOCK_STREAM, 0);
 
   memset(&serv_adr, 0, sizeof(serv_adr));
   serv_adr.sin_family=AF_INET;
