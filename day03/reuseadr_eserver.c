@@ -25,23 +25,31 @@ int main(int argc, char *argv[])
   if(serv_sock == -1)
     error_handling("socket() error");
 
-  fp=fopen("receive", "wb");
-  sd=socket(PF_INET, SOCK_STREAM, 0);
+  /*
+  optlen=sizeof(option);
+  option=TRUE;
+  setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, (void*)&option, optlen);
+  */
 
   memset(&serv_adr, 0, sizeof(serv_adr));
   serv_adr.sin_family=AF_INET;
-  serv_adr.sin_addr.s_addr=inet_addr(argv[1]);
-  serv_adr.sin_port=htons(atoi(argv[2]));
+  serv_adr.sin_addr.s_addr=htonl(INADDR_ANY);
+  serv_adr.sin_port=htons(atoi(argv[1]));
 
-  connect(sd, (struct sockaddr*)&serv_adr, sizeof(serv_adr));
-
-  while((read_cnt=read(sd, buf, BUF_SIZE))!=0)
-    fwrite((void*)buf, 1, read_cnt, fp);
-
-  puts("Received file data");
-  write(sd, "Thank you", 10);
-  fclose(fp);
-  close(sd);
+  if(bind(serv_sock, (struct sockaddr*)&serv)adr,sizeof(serv_adr)))
+    error_handling("blind() error");
+  if(listen(serv_sock, 5)==-1)
+    error_handling("listen error");
+  clnt_adr_sz=sizeof(clnt_adr);
+  clnt_sock=accept(serv_sock,(struct sockaddr*)&clnt_adr,&clnt_adr_sz);
+  
+  while((str_len=read(clnt_sock, message, sizeof(message)))!=0)
+  {
+    write(clnt_sock, message, str_len);
+    write(1, message, str_len);
+  }
+  close(clnt_sock);
+  close(serv_sock);
   return 0;
 }
 
