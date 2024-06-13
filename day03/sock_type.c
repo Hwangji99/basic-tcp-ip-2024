@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
   state=getsockopt(tcp_sock, SOL_SOCKET, SO_TYPE, (void*)&sock_type, &optlen);
   if(state)
     error_handling("getsockopt() error!");
-  printf("Socket type two: %d \n", socket_type);
+  printf("Socket type two: %d \n", sock_type);
   return 0;
 }
 
