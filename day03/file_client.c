@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   }
 
   fp=fopen("receive", "wb");
-  sd=socket(PF_INET, SOCK_STERAM, 0);
+  sd=socket(PF_INET, SOCK_STREAM, 0);
 
   memset(&serv_adr, 0, sizeof(serv_adr));
   serv_adr.sin_family=AF_INET;
