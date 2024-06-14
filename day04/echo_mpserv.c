@@ -36,9 +36,9 @@ int main(int argc, char *argv[])
   serv_adr.sin_addr.s_addr=htonl(INADDR_ANY);
   serv_adr.sin_port=htons(atoi(argv[1]));
 
-  if(bind(serv.sock, (struct sockaddr*) &serv_adr, sizeof(serv_adr))==-1)
+  if(bind(serv_sock, (struct sockaddr*) &serv_adr, sizeof(serv_adr))==-1)
     error_handling("bind() error");
-  if(listen(serv.sock, 5)==-1)
+  if(listen(serv_sock, 5)==-1)
     error_handling("listen() error");
 
   while(1)
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     if(pid==0) /* 58~66행 : 자식 프로세스 실행 영역 */    // 에코 서비스가 제공
     {
       close(serv_sock);  // 33행에서 만든 서버 소켓을 닫음
-      while(str_len=read(clnt_sock, buf, BUF_SIZE))!=0)
+      while((str_len=read(clnt_sock, buf, BUF_SIZE))!=0)
         write(clnt_sock, buf, str_len);
 
       close(clnt_sock);
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
       close(clnt_sock);  // 47행의 accept 함수호출을 통해서 만들어진 소켓의 파일 디스크립터가 자식 프로세스에게 복사되었으니
   }                      // 서버는 자신이 소유하고 있는 파일 디스크립터를 소멸시켜야 한다
   close(serv_sock);
-  return0;
+  return 0;
 }
 
 void read_childproc(int sig)
