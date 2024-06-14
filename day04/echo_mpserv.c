@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
   act.sa_flags=0;
   state=sigaction(SIGCHLD, &act, 0);
   serv_sock=socket(PF_INET, SOCK_STREAM, 0);
-  memset(&serv_adr, 0, sizeof(serv_adr);
+  memset(&serv_adr, 0, sizeof(serv_adr));
   serv_adr.sin_family=AF_INET;
   serv_adr.sin_addr.s_addr=htonl(INADDR_ANY);
   serv_adr.sin_port=htons(atoi(argv[1]));
@@ -81,7 +81,7 @@ void read_childproc(int sig)
 }
 void error_handling(char *message)
 {
-  fputs(message, stderr;
-  fputc('\n', stderr;
+  fputs(message, stderr);
+  fputc('\n', stderr);
   exit(1);
 }
