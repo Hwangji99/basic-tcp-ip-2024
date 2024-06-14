@@ -59,9 +59,9 @@ int main(int argc, char *argv[])
         {
           adr_sz=sizeof(clnt_adr);
           clnt_sock=
-              accept(serv_sock, (struct sockaddr*)&clnt_adr_sz);
+              accept(serv_sock, (struct sockaddr*)&clnt_adr, &adr_sz);
           FD_SET(clnt_sock, &reads);
-          if(fd(fd_max<clnt_sock)
+          if(fd_max<clnt_sock)
             fd_max=clnt_sock;
           printf("connected client: %d \n", clnt_sock);
         }
