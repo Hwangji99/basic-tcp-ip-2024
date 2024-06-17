@@ -47,15 +47,15 @@ int main(int argc, char *argv[])
 		else
 			printf("Connected client %d \n", i+1);
 
-    readfp=fdopen(clnt_sock, "r");
-    writefp=fdopen(clnt_sock, "w");
+	      	readfp=fdopen(clnt_sock, "r");
+	   	writefp=fdopen(clnt_sock, "w");
 		while(!feof(readfp)){
-		fgets(message, BUF_SIZE, readfp
-    fputs(message, writefp);
-    fflush(writefp);
+			fgets(message, BUF_SIZE, readfp);
+	    		fputs(message, writefp);
+			fflush(writefp);
 		}
-		close(readfp);
-		close(writefp);
+		fclose(readfp);
+		fclose(writefp);
 	}
 
 	close(serv_sock);
