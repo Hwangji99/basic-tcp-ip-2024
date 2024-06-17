@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
 	serv_adr.sin_port = htons(atoi(argv[2]));
 
   connect(sock, (struct sockaddr*)&serv_adr, sizeof(serv_adr));
-  readfp=fdopen(clnt_sock, "r");  
-  writefp=fdopen(clnt_sock, "w");
+  readfp=fdopen(sock, "r");  
+  writefp=fdopen(sock, "w");
 
   while(1)
   {
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
   fputs("FROM CLIENT: Thank you! \n", writefp);  // 이 문장에 의해서 서버로 마지막 문자열이 전송
   fflush(writefp);                               // 위 문자열은 서버로부터 전달된 EOF 수신 후에
-  fcloser(writefp);                              // 전송하는 문자열
+  fclose(writefp);                              // 전송하는 문자열
   fclose(readfp);
   return 0;
 }
