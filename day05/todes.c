@@ -7,7 +7,7 @@ int main(void)
   int fd=open("data.dat", O_WRONLY|O_CREAT|O_TRUNC);  
   if(fd==-1)
   {
-    fputs("file open error", stdout);
+    fputs("file open error\n", stdout);
     return -1;
   }
 
