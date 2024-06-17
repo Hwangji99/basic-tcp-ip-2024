@@ -22,20 +22,20 @@ int main(int argc, char *argv[])
 
   acpt_sock=socket(PF_INET, SOCK_STREAM, 0);
   memset(&acpt_sock, 0, sizeof(acpt_sock));
-  acpt_sock.sin_family=AF_INET;
-  acpt_sock.sin_addr.s_addr=htonl(INADDR_ANY);
-  acpt_sock.sin_port=htons(atoi(argv[1]));
+  acpt_adr.sin_family=AF_INET;
+  acpt_adr.sin_addr.s_addr=htonl(INADDR_ANY);
+  acpt_adr.sin_port=htons(atoi(argv[1]));
 
   if(bind(acpt_sock, (struct sockaddr*)&acpt_sock, sizeof(acpt_sock))==-1)
     error_handling("bind() error!");
   listen(acpt_sock, 5);
 
   recv_sock=sizeof(recv_sock);
-  recv_sock=accept(acpt_sock, (struct sockaddr*)&recv_sock, &recv_sock_sz);
+  recv_sock=accept(acpt_sock, (struct sockaddr*)&recv_sock, &recv_adr_sz);
 
   while(1)
   {
-    str_len=recv_sock, buf, sizeof(buf)-1, MSG_PEEK|MSG<DONTWAIT);  // ercv 함수를 호출하면서 MSG_PEEK을 옵션으로 전달. 옵션을 함께 전달하는 이유는
+    str_len=(recv_sock, buf, sizeof(buf)-1, MSG_PEEK|MSG_DONTWAIT);  // ercv 함수를 호출하면서 MSG_PEEK을 옵션으로 전달. 옵션을 함께 전달하는 이유는
     if(str_len>0)                                                   // 데이터가 존재하지 않아도 블로킹 상태에 두지 않기 위해서
       break;
   }
