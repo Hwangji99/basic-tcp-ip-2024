@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
   char str2[]= "It's nice day~ \n";
 
   cfd1=dup(1);  // 10행은 dup을 통해 1을 복사, 11행에서는 dup2로 복사한 파일을 재복사, 그리고 정수값
-  cfd2=dup(cfd1, 7);  // 7로 지정
+  cfd2=dup2(cfd1, 7);  // 7로 지정
 
   printf("fd1=%d, fd2=%d \n", cfd1, cfd2);
   write(cfd1, str1, sizeof(str1));  // 출력,  이 출력 결과를 통해 실제 복사가 이뤄진 것인지 확인가능
