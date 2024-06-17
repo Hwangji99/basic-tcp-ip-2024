@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
   fcntl(recv_sock, F_SETOWN, getpid());  // fcntl 함수가 호출
   state=sigaction(SIGURG, &act, 0);
 
-  while((str_len=recv_sock, buf, sizrof(buf), 0))!=0)
+  while((str_len=recv_sock, buf, sizeof(buf), 0))!=0)
   {
     if(str_len==-1)
       continue;
