@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[])
 {
-  int serv_sock, clnt sock;
+  int serv_sock, clnt_sock;
   FILE * readfp;
   FILE * writefp;
 
@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
   fputs("You are awesome! \n", writefp);
   fflush(writefp);
 
-  shutdown(filenp(writefp), SHUT_WR);
-  fcloser(writefp);
+  shutdown(fileno(writefp), SHUT_WR);
+  fclose(writefp);
   
   fgets(buf, sizeof(buf), readfp);
   fputs(buf, stdout);
