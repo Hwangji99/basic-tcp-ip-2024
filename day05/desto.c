@@ -7,7 +7,7 @@ int main(void)
   int fd=open("data.dat", O_WRONLY|O_CREAT|O_TRUNC);  // open 함수를 사용해서 파일을 생성했으므로 파일 디스크립터가 반환된
   if(fd==-1)
   {
-    fputs("file open error", stdout);
+    fputs("file open error\n", stdout);
     return -1;
   }
 
