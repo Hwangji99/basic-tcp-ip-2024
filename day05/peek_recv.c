@@ -26,12 +26,12 @@ int main(int argc, char *argv[])
   acpt_adr.sin_addr.s_addr=htonl(INADDR_ANY);
   acpt_adr.sin_port=htons(atoi(argv[1]));
 
-  if(bind(acpt_sock, (struct sockaddr*)&acpt_sock, sizeof(acpt_sock))==-1)
+  if(bind(acpt_sock, (struct sockaddr*)&acpt_adr, sizeof(acpt_adr))==-1)
     error_handling("bind() error!");
   listen(acpt_sock, 5);
 
-  recv_sock=sizeof(recv_sock);
-  recv_sock=accept(acpt_sock, (struct sockaddr*)&recv_sock, &recv_adr_sz);
+  recv_adr=sizeof(recv_adr);
+  recv_sock=accept(acpt_sock, (struct sockaddr*)&recv_adr, &recv_adr_sz);
 
   while(1)
   {
