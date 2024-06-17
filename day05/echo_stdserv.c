@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
 
 	struct sockaddr_in serv_adr, clnt_adr;
 	socklen_t clnt_adr_sz;
-  FILE * readfp;
-  FILE * writefp;
+	FILE * readfp;
+	FILE * writefp;
 	if(argc != 2){
 		printf("Usage : %s <port>\n", argv[0]);
 		exit(1);
