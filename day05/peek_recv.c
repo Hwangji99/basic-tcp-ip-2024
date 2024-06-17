@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     error_handling("bind() error!");
   listen(acpt_sock, 5);
 
-  recv_adr=sizeof(recv_adr);
+  recv_adr_sz=sizeof(recv_adr);
   recv_sock=accept(acpt_sock, (struct sockaddr*)&recv_adr, &recv_adr_sz);
 
   while(1)
