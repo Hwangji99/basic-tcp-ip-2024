@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   }
 
   sock=socket(PF_INET, SOCK_STREAM, 0);
-  memset(&recv_adr, 0 sizeof(recv_adr));
+  memset(&recv_adr, 0, sizeof(recv_adr));
   recv_adr.sin_family=AF_INET;
   recv_adr.sin_addr.s_addr=inet_addr(argv[1]);
   recv_adr.sin_port=htons(atoi(argv[2]));
