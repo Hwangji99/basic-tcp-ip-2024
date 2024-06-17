@@ -15,6 +15,6 @@ int main(int argc, char *argv[])
 
   str_len=writev(1, vec, 2);  // writev 함수의 첫 번째 전달인자가 1이므로 콘솔로 출력이 이루어짐
   puts("");
-  printf("Write bytes: &d \n", str_len);
+  printf("Write bytes: %d \n", str_len);
   return 0;
 }
