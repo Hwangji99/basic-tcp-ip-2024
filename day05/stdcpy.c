@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
   fp1=fopen("news.txt", "r");
   fp2=fopen("cpy.txt", "w");
 
-  while(fgets(fp1, BUF_SIZE, fp1)!=NULL)
+  while(fgets(buf, BUF_SIZE, fp1)!=NULL)
     fputs(buf, fp2);
 
   fclose(fp1);
