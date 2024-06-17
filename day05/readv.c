@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
   str_len=readv(0, vec, 2);  // readv 함수의 첫 번째 전달인자가 0이기 때문에 콘솔로부터 데이터를 수신함
   printf("Read bytes: %d \n", str_len);
-  printf("First message : %d \n", buf1);
-  printf("Second message : %d \n", buf2);
+  printf("First message : %s \n", buf1);
+  printf("Second message : %s \n", buf2);
   return 0;
 }
