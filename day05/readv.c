@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-  struct ivoec vec[2];
+  struct iovec vec[2];
   char buf1[BUF_SIZE]={0,};
   char buf2[BUF_SIZE]={0,};
   int str_len;
