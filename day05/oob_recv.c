@@ -14,7 +14,7 @@ void urg_handler(int singo);
 int acpt_sock;
 int recv_sock;
 
-int main(it argc, char *argv[])
+int main(int argc, char *argv[])
 {
   struct sockaddr_in recv_adr, serv_adr;
   int str_len, state;
