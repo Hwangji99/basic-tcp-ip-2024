@@ -11,9 +11,9 @@ void error_handling(char *message);
 int main(int argc, char *argv[])
 {
   int recv_sock, acpt_sock;
-  struct sockaddr_in recv_adr, serv_adr;
+  struct sockaddr_in acpt_adr, recv_adr;
   int str_len, state;
-  socklen_t serv_adr_sz;
+  socklen_t recv_adr_sz;
   char buf[BUF_SIZE];
   if(argc!=2) {
     printf("Usage : %s  <port>\n", argv[0]);
