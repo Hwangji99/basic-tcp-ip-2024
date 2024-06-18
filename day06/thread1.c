@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <pthread.h>
-void* thread_main(void *argv[])
+void* thread_main(void *argv[]);
 
 int main(int argc, char *argv[])
 {
