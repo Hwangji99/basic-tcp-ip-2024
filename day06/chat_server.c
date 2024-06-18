@@ -41,13 +41,6 @@ int main(int argc, char *argv[])
   if(listen(serv_sock, 5) == -1)
 		error_handling("listen() error!");
 
-  epfd=epoll_create(EPOLL_SIZE);
-  ep_events=malloc(sizeof(struct epoll_event)*EPOLL_SIZE);
-
-  event.events=EPOLLIN;
-  event.data.fd=serv_sock;
-  epoll_ctl(epfd, EPOLL_CTL_ADD, serv_sock, &event);
-
   while(1)
   {
     clnt_adr_sz=sizeof(clnt_adr);
