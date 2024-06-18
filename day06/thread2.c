@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
   if(pthread_join(t_id, &thr_ret)!=0)
   {
     puts("pthread_join() error");
-    reutrn -1;
+    return -1;
   }
 
   printf("Thread return message: %s \n", (char*)thr_ret);
@@ -36,7 +36,8 @@ void* thread_main(void *arg)
   
   for(i=0; i<cnt; i++)
   {
-    sleep(1); puts("running thread");
+    sleep(1);
+    puts("running thread");
   }
   return (void*)msg;
 }
