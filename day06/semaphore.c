@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
   sem_init(&sem_two, 0, 1);
 
   pthread_create(id_t1, NULL, read, NULL);
-  pthread_create(id_t1, NULL, accu, NULL);
+  pthread_create(id_t2, NULL, accu, NULL);
   
   pthread_join(id_t1, NULL);
   pthread_join(id_t2, NULL);
