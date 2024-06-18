@@ -64,8 +64,8 @@ int main(int argc, char *argv[])
       {
         adr_sz=sizeof(clnt_adr);
         clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_adr, &adr_sz);
-        setnonblocking(clnt_sock);    // 59행에서는 accept로 생성된 소켓을 넌-블로킹 소켓으로 변경
-        event.events=EPOLLIN|EPOLLET; // 60행에서 보이듯이 EPOLLET을 추가해서 소켓의 이벤트 등록
+        setnonblockingmode(clnt_sock);    // 67행에서는 accept로 생성된 소켓을 넌-블로킹 소켓으로 변경
+        event.events=EPOLLIN|EPOLLET; // 68행에서 보이듯이 EPOLLET을 추가해서 소켓의 이벤트 등록
         event.data.fd=clnt_sock;      // 방식을 엣지 트리거 방식으로 설정
         epoll_ctl(epfd, EPOLL_CTL_ADD, clnt_sock, &event);
         printf("connected client: %d \n", clnt_sock);
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 void setnonblockingmode(int fd);
 {
   int flag=fcntl(fd, F_GETFL, 0);
-fcntl(fd, F_SETFL, flag|O_NONBLOCK);
+  fcntl(fd, F_SETFL, flag|O_NONBLOCK);
 }
 
 void error_handling(char *buf)
