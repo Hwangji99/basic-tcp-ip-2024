@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-void setnonblockingmode(int fd);
+void setnonblockingmode(int fd)
 {
   int flag=fcntl(fd, F_GETFL, 0);
   fcntl(fd, F_SETFL, flag|O_NONBLOCK);
