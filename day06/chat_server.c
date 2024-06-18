@@ -99,7 +99,7 @@ void send_msg(char * msg, int len)  // send to all
   pthread_mutex_unlock(&mutx);
 }
 
-void error_handling(char *buf)
+void error_handling(char *msg)
 {
   fputs(buf, stderr);
   fputc('\n', stderr);
