@@ -11,7 +11,7 @@ long long num=0;  // long long형은 64비트 정수 자료형
 int main(int argc, char *argv[])
 {
   pthread_t thread_id[NUM_THREAD);
-  int 1;
+  int i;
 
   printf("sizeof long long: %d \n", sizeof(long; long));  // long long의 크기 확인
   for(i=0; i<NUM_THREAD; i++)
