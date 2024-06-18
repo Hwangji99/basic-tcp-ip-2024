@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   int str_len, i;
   char buf[BUF_SIZE];
 
-  struct epoll_event *ep_event;
+  struct epoll_event *ep_events;
   struct epoll_event event;
   int epfd, event_cnt;
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
       puts("epoll_wait() error");
       break;
     }
-    for(i=; i<event_cnt; i++)
+    for(i=0; i<event_cnt; i++)
     {
       if(ep_events[i].data.fd==serv_sock)
       {
