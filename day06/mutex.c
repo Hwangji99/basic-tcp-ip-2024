@@ -12,10 +12,10 @@ pthread_mutex_t mutex;  // 뮤텍스의 참조 값 저장을 위한 변수가 �
 
 int main(int argc, char *argv[])
 {
-  pthread_t thread_id[NUM_THREAD);
+  pthread_t thread_id[NUM_THREAD];
   int i;
 
-  pthread_mutex_init(&mutex, NULL)  
+  pthread_mutex_init(&mutex, NULL);
   
   for(i=0; i<NUM_THREAD; i++)
   {
@@ -52,5 +52,5 @@ void * thread_des(void * arg)
     num-=1;
     pthread_mutex_unlock(&mutex);
   }
+  return NULL;
 }
-return NULL;
