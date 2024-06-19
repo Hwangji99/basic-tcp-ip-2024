@@ -67,7 +67,7 @@ void* request_handler(void *arg)
   fgets(req_line, SMALL_BUF, clnt_read);
   if(strstr(req_line, "HTTP/")==NULL)
   {
-    send_error(clnt_sock, "r");
+    send_error(clnt_write);
     fclose(clnt_read);
     fclose(clnt_write);
     return;
