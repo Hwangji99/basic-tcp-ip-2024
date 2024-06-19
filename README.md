@@ -180,7 +180,9 @@ IoT 개발자 과정 TCP/IP 리포지토리
         ```C
         #include <sys/socket.h>
         int bind(int sockfd, struct sockaddr *myaddr, socklen_t addrlen)
-        // sockfd : 소켓의 파일 디스크립터, myaddr : 할당당하고자 하는 주소정보를 지니는 구조체 변수의 주소값, addrlen : 구조체 변수의 길이정보
+        // sockfd : 소켓의 파일 디스크립터
+        // myaddr : 할당당하고자 하는 주소정보를 지니는 구조체 변수의 주소값
+        // addrlen : 구조체 변수의 길이정보
         // 성공시 0, 실패시 -1 반환
         ```
 
