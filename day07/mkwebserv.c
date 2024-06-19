@@ -47,8 +47,8 @@
        read(clnt_sock, buf, 2047);
        printf("%s\n", buf);
 
-       if(strstr(buf, "GET /game.jpg") != NULL) {
-       fdimg = open("game.jpg", O_RDONLY);
+       if(strstr(buf, "GET /dog.jpg") != NULL) {
+       fdimg = open("dog.jpg", O_RDONLY);
           if((img_size = read(fdimg, img_buf, sizeof(img_buf))) == -1) puts("file read error!!");
           close(fdimg);
 
