@@ -1,177 +1,74 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <pthread.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <arpa/inet.h>
+ #include <unistd.h>
+ #include <sys/socket.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <sys/sendfile.h>
 
-#define BUF_SIZE 1024
-#define SMALL_BUF 100
+ #define  TRUE  1
 
-void *request_handler(void* arg);
-void send_data(FILE* fp, char* ct, char* file_name);
-char* content_type(char* file);
-void send_error(FILE* fp);
-void error_handling(char* message);
+ char webpage[] = "HTTP/1.1 200 OK\r\n"  // 상태 라인
+                   "Server:Linux Web Server\r\n"
+                  "Content-Type: text/html; charset=UTF-8\r\n\r\n"  //메세지더
+                  "<!DOCTYPE html>\r\n"       // 웹브라우저에 HTML5로 작성된 문서임을 알림
+                  "<html><head><title> My Web Page </title>\r\n" //<html>html 시작,<head>문서속성,<title>제목
+                   "<link rel=\"icon\" href=\"data:,\">\r\n"
+                  "<style>body {background-color: #FFFF00 }</style></head>\r\n"//<style>스타일,<CSS>시트
+                  "<body><center><h1>Hello world!!</h1><br>\r\n" //<h1>글자태그<br>한줄 띄우기
+                   "<img src=\"dog.png\"></center></body></html>\r\n";
+ int main(int argc, char *argv[])
+ {
+    struct sockaddr_in serv_addr, clnt_addr;
+    socklen_t sin_len = sizeof(clnt_addr);
+    int serv_sock, clnt_sock;
+    char buf[2048];
+    int fdimg, img_size;
+    int option = TRUE;
+    char img_buf[700000];
 
-char webpage[] = "HTTP/1.1 200 OK\r\n"
-		"Server:Linux Web Server \r\n"
-		"Content-Type: text/html: charset=UTF-8\r\n\r\n"
-		"<!DOCTYPE html>\r\n"
-		"<html><head><title> My Web Page </title> \r\n"
-		"<style>body {background-color: #FFFF00 }</style></head>\r\n"
-		"<body><center><h1>Hello World!!</h1><br>\r\n"
-		"<img src=\"dog.png\"></center></body></html>\r\n";
+    serv_sock = socket(AF_INET, SOCK_STREAM, 0);
+    /* 주소 재할당 */
+    setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(int));
 
-int main(int argc, char *argv[])
-{
-  int serv_sock, clnt_sock;
-  struct sockaddr_in serv_adr, clnt_adr;
-  int clnt_adr_size;
-  char buf[BUF_SIZE];
-  pthread_t t_id;
-  if(argc!=2)  {
-    printf("Usage : %s <port>\n", argv[0]);
-    exit(1);
-  }
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_port = htons(atoi(argv[1]));
+    if(bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr)) == -1)
+       perror("bind() error!!");
+    if(listen(serv_sock, 5) == -1) perror("listen() error!!");
 
-  serv_sock=socket(PF_INET, SOCK_STREAM, 0);
-  memset(&serv_adr, 0, sizeof(serv_adr));
-  serv_adr.sin_family=AF_INET;
-  serv_adr.sin_addr.s_addr=htonl(INADDR_ANY);
-  serv_adr.sin_port=htons(atoi(argv[1]));
+    while(1) {
+       clnt_sock = accept(serv_sock, (struct sockaddr*) &clnt_addr, &sin_len);
+       puts("New client connection.....");
+       read(clnt_sock, buf, 2047);
+       printf("%s\n", buf);
 
-  if(bind(serv_sock, (struct sockaddr*) &serv_adr, sizeof(serv_adr))==-1)
-    	error_handling("bind() error");
-  if(listen(serv_sock, 20) == -1)
-	error_handling("listen() error!");
+       if(strstr(buf, "GET /game.jpg") != NULL) {
+       fdimg = open("game.jpg", O_RDONLY);
+          if((img_size = read(fdimg, img_buf, sizeof(img_buf))) == -1) puts("file read error!!");
+          close(fdimg);
 
-  while(1)
-  {
-    char readbuf[BUF_SIZE];
-    FILE * img;
-	  
-    clnt_adr_size=sizeof(clnt_adr);
-    clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_adr,&clnt_adr_size);
-    printf("Connection Request : %s:%d\n",
-      inet_ntoa(clnt_adr.sin_addr), ntohs(clnt_adr.sin_port));
-    read(clnt_sock, readbuf, BUF_SIZE);
-    printf("%s", readbuf);
+          sprintf(buf, "HTTP/1.1 200 OK\r\n"
+           "Server: Linux Web Server\r\n"
+           "Content-Type: image/jpeg\r\n"
+           "Content-Length: %ld\r\n\r\n", img_size);
+          /* 헤더전송 */
+       if(write(clnt_sock, buf, strlen(buf)) < 0) puts("file write error!!");
+          /* 이미지전송*/
+          if(write(clnt_sock, img_buf, img_size) < 0) puts("file write error!!");
 
-    if(strncmp(readbuf, "GET", 3) == 0) {
-	write(clnt_sock, webpage, sizeof(webpage)-1);
-    }
-    // pthread_create(&t_id, NULL, request_handler, &clnt_sock);
-    // pthread_detach(t_id);
-  }
-  close(serv_sock);
-  return 0;
-}
-
-void* request_handler(void *arg)
-{
-  int clnt_sock=*((int*)arg);
-  char req_line[SMALL_BUF];
-  FILE* clnt_read;
-  FILE* clnt_write;
-
-  char method[10];
-  char ct[15];
-  char file_name[30];
-
-  clnt_read=fdopen(clnt_sock, "r");
-  clnt_write=fdopen(dup(clnt_sock), "w");
-  fgets(req_line, SMALL_BUF, clnt_read);
-  if(strstr(req_line, "HTTP/")==NULL)
-  {
-    send_error(clnt_write);
-    fclose(clnt_read);
-    fclose(clnt_write);
-    return;
-  }
-
-  strcpy(method, strtok(req_line, " /"));
-  strcpy(file_name, strtok(NULL, " /"));
-  strcpy(ct, content_type(file_name));
-  if(strcmp(method, "GET")!=0)
-  {
-    send_error(clnt_write);
-    fclose(clnt_read);
-    fclose(clnt_write);
-    return;
-  }
-
-  fclose(clnt_read);
-  send_data(clnt_write, ct, file_name);
-}
-
-void send_data(FILE* fp, char* ct, char* file_name)
-{
-  char protocol[]="HTTP/1.1 200 OK\r\n";
-  char server[]="Server: Linux Web Server \r\n";
-  char cnt_len[] = "Content-length:2048\r\n";
-  char cnt_type[SMALL_BUF];
-  char buf[BUF_SIZE];
-  FILE* send_file;
-
-  sprintf(cnt_type, "Content-type: %s \r\n\r\n", ct);
-  send_file=fopen(file_name, "r");
-  if(send_file==NULL)
-  {
-    send_error(fp);
-    return;
-  }
-
-  /* 헤더 정보 이송 */
-  fputs(protocol, fp);
-  fputs(server, fp);
-  fputs(cnt_len, fp);
-  fputs(cnt_type, fp);
-
-  /* 요청 데이터 전송 */
-  while(fgets(buf, BUF_SIZE, send_file)!=NULL)
-  {
-    fputs(buf, fp);
-    fflush(fp);
-  }
-  fflush(fp);
-  fclose(fp);
-}
-
-char* content_type(char* file)
-{
-  char extension[SMALL_BUF];
-  char file_name[SMALL_BUF];
-  strcpy(file_name, file);
-  strtok(file_name, ".");
-  strcpy(extension, strtok(NULL, "."));
-  if(!strcmp(extension, "html")||!strcmp(extension, "htm"))
-    return "text/html";
-  else
-    return "text/plain";
-}
-
-void send_error(FILE* fp)
-{
-  char protocol[]="HTTP/1.0 400 Bad Request\r\n";
-  char server[]="Server:Linux Wrb Server \r\n";
-  char cnt_len[]="Content-length: 2048\r\n";
-  char cnt_type[]="Content-type:text/html\r\n\r\n";
-  char content[]="<html><head><title>NETWORK</title></head>"
-        "<body><font size=+5><br>오류 발생! 요청 파일명 및 요청 방식 확인!"
-        "</font><body></html>";
-
-  fputs(protocol,fp);
-  fputs(server,fp);
-  fputs(cnt_len,fp);
-  fputs(cnt_type,fp);
-  fflush(fp);  
-}
-
-void error_handling(char *message)
-{
-  fputs(message, stderr);
-  fputc('\n', stderr);
-  exit(1);
-}
+          close(clnt_sock);
+       }
+       else
+          //send(clnt_sock, webpage, sizeof(webpage), 0);
+          if(write(clnt_sock, webpage, sizeof(webpage)) == -1) puts("file write error!!");
+          puts("closing.....");
+          close(clnt_sock);
+       }
+       close(serv_sock);
+       return 0;
+ }
