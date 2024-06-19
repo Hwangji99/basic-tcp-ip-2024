@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
   while(1)
   {
-    clnt_adr_sz=sizeof(clnt_adr);
+    clnt_adr_size=sizeof(clnt_adr);
     clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_adr,&clnt_adr_sz);
     printf("Connection Request : %s:%d\n",
       inet_ntoa(clnt_adr.sin_addr), ntohs(clnt_adr.sin_port));
