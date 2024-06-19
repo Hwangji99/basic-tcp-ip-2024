@@ -821,3 +821,7 @@ IoT 개발자 과정 TCP/IP 리포지토리
             #include <semaphore>
             int sem_init(sem_t)
             ```
+
+## 7일차(2024-06-19)
+- 미니 프로젝트
+    - 웹서버 구현
