@@ -91,9 +91,13 @@ void* request_handler(void *arg)
 void send_data(FILE* fp, char* ct, char* file_name)
 {
   char protocol[]="HTTP/1.1 200 OK\r\n";
-      "Server: Linux Web Server \r\n";
-      "Content-Type: text/html: charset= UTF-8\r\n\r\n";
-  char buf[BUF_SIZE];
+  char server[]="Server: Linux Web Server \r\n";
+  char cnt_type[]="Content-Type: text/html: charset= UTF-8\r\n\r\n"
+	"<!DOCTYPE html>\r\n";
+  char content[]="<html><head><title>My Web Page</title>\r\n"
+	"<style>body {background-color: #FFFF00 }</style></head>\\r\n"
+	"<body><center><h1>Hello world!</h1><br>\r\n"
+	"<img src=\"dog.png\"></center></body></html>"
   FILE* send_file;
 
   sprintf(cnt_type, "Content-type: %s \r\n\r\n", ct);
