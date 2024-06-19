@@ -101,7 +101,7 @@ void send_data(FILE* fp, char* ct, char* file_name)
   FILE* send_file;
 
   sprintf(cnt_type, "Content-type: %s \r\n\r\n", ct);
-  send_file=fopen(file_name. "r");
+  send_file=fopen(file_name, "r");
   if(send_file==NULL)
   {
     send_error(fp);
