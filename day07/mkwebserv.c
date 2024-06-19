@@ -169,7 +169,7 @@ void send_error(FILE* fp)
   fflush(fp);  
 }
 
-void error_handling(char *msg)
+void error_handling(char *message)
 {
   fputs(message, stderr);
   fputc('\n', stderr);
