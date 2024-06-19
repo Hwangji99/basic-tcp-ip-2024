@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
   while(1)
   {
     char readbuf[BUF_SIZE];
-    FILE * img
+    FILE * img;
 	  
     clnt_adr_size=sizeof(clnt_adr);
     clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_adr,&clnt_adr_size);
@@ -171,7 +171,7 @@ void send_error(FILE* fp)
 
 void error_handling(char *msg)
 {
-  fputs(buf, stderr);
+  fputs(message, stderr);
   fputc('\n', stderr);
   exit(1);
 }
