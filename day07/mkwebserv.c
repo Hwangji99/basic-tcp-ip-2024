@@ -9,11 +9,20 @@
 #define BUF_SIZE 1024
 #define SMALL_BUF 100
 
-void request_handler(void* arg);
+void* request_handler(void* arg);
 void send_data(FILE* fp, char* ct, char* file_name);
 char* content_type(char* file);
 void send_error(FILE* fp);
 void error_handling(char* message);
+
+char webpage[] = "HTTP/1.1 200 OK\r\n"
+		"Server:Linux Web Server \r\n"
+		"Content-Type: text/html: charset=UTF\r\n\r\n"
+		"<!DOCTYPE html>\r\n"
+		"<html><head><title> My Web Page </title> \r\n"
+		"<style>body {background-color: #FFFF00 }</style></head>\r\n"
+		"<body><center><h1>Hello World!!<h1><br>\r\n"
+		"<img src=\"dog.png\"><center></body></html>\r\n";
 
 int main(int argc, char *argv[])
 {
@@ -34,18 +43,27 @@ int main(int argc, char *argv[])
   serv_adr.sin_port=htons(atoi(argv[1]));
 
   if(bind(serv_sock, (struct sockaddr*) &serv_adr, sizeof(serv_adr))==-1)
-    error_handling("bind() error");
-  if(listen(serv_sock, 5) == -1)
-		error_handling("listen() error!");
+    	error_handling("bind() error");
+  if(listen(serv_sock, 20) == -1)
+	error_handling("listen() error!");
 
   while(1)
   {
+    char readbuf[BUF_SIZE];
+    FILE * img
+	  
     clnt_adr_size=sizeof(clnt_adr);
     clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_adr,&clnt_adr_size);
     printf("Connection Request : %s:%d\n",
       inet_ntoa(clnt_adr.sin_addr), ntohs(clnt_adr.sin_port));
-    pthread_create(&t_id, NULL, request_handler, &clnt_sock);
-    pthread_detach(t_id);
+    read(clnt_sock, readbuf, BUF_SIZE);
+    printf("%s", readbuf);
+
+    if(strncmp(readbuf, "GET", 3) == 0) {
+	write(clnt_sock, webpage, sizeof(webpage)-1);
+    }
+    // pthread_create(&t_id, NULL, request_handler, &clnt_sock);
+    // pthread_detach(t_id);
   }
   close(serv_sock);
   return 0;
@@ -92,12 +110,9 @@ void send_data(FILE* fp, char* ct, char* file_name)
 {
   char protocol[]="HTTP/1.1 200 OK\r\n";
   char server[]="Server: Linux Web Server \r\n";
-  char cnt_type[]="Content-Type: text/html: charset= UTF-8\r\n\r\n"
-	"<!DOCTYPE html>\r\n";
-  char content[]="<html><head><title>My Web Page</title>\r\n"
-	"<style>body {background-color: #FFFF00 }</style></head>\\r\n"
-	"<body><center><h1>Hello world!</h1><br>\r\n"
-	"<img src=\"dog.png\"></center></body></html>"
+  char cnt_len[] = "Content-length:2048\r\n";
+  char cnt_type[SMALL_BUF];
+  char buf[BUF_SIZE];
   FILE* send_file;
 
   sprintf(cnt_type, "Content-type: %s \r\n\r\n", ct);
