@@ -9,7 +9,7 @@
 #define BUF_SIZE 1024
 #define SMALL_BUF 100
 
-void* request_handler(void* arg);
+void *request_handler(void* arg);
 void send_data(FILE* fp, char* ct, char* file_name);
 char* content_type(char* file);
 void send_error(FILE* fp);
@@ -17,12 +17,12 @@ void error_handling(char* message);
 
 char webpage[] = "HTTP/1.1 200 OK\r\n"
 		"Server:Linux Web Server \r\n"
-		"Content-Type: text/html: charset=UTF\r\n\r\n"
+		"Content-Type: text/html: charset=UTF-8\r\n\r\n"
 		"<!DOCTYPE html>\r\n"
 		"<html><head><title> My Web Page </title> \r\n"
 		"<style>body {background-color: #FFFF00 }</style></head>\r\n"
-		"<body><center><h1>Hello World!!<h1><br>\r\n"
-		"<img src=\"dog.png\"><center></body></html>\r\n";
+		"<body><center><h1>Hello World!!</h1><br>\r\n"
+		"<img src=\"dog.png\"></center></body></html>\r\n";
 
 int main(int argc, char *argv[])
 {
