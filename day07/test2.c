@@ -90,10 +90,10 @@ void send_webpage(int clnt_sock) {
                      "Server: Linux Web Server\r\n"
                      "Content-Type: text/html; charset=UTF-8\r\n\r\n"
                      "<!DOCTYPE html>\r\n"
-                     "<html><head><title>My Web Page</title>\r\n"
+                     "<html><head><title>끝내버림</title>\r\n"
                      "<link rel=\"icon\" href=\"data:,\">\r\n"
                      "<style>body {background-color: #FFFF00 }</style></head>\r\n"
-                     "<body><center><h1>Hello world!!</h1><br>\r\n"
+                     "<body><center><h1>귀엽다 그죠잉~??</h1><br>\r\n"
                      "<img src=\"dog.jpg\"></center></body></html>\r\n";
 
     // 클라이언트 소켓에 HTML 페이지 전송
